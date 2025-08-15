@@ -1,0 +1,4 @@
+*.xlsx 
+instance/
+venv/
+.ipynb_checkpoints

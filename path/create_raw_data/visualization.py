@@ -3,13 +3,20 @@ import geopandas as gpd
 import pandas as pd
 
 # 1) 데이터 읽기
-nodes_df = pd.read_csv("/home/seyeon/hakathon/Walking_route/new/nodes.csv")
-edges_gdf = gpd.read_file("/home/seyeon/hakathon/Walking_route/new/edges.geojson")
+nodes_df = pd.read_csv("path/test_seyeon/nodes.csv")
+edges_gdf = gpd.read_file("path/test_seyeon/edges.geojson")
 
 # 2) 지도 중심 좌표
 center_lat = nodes_df["lat"].mean()
 center_lon = nodes_df["lon"].mean()
-m = folium.Map(location=[center_lat, center_lon], zoom_start=14, tiles="cartodbpositron")
+m = folium.Map(location=[center_lat, center_lon], zoom_start=14)
+folium.TileLayer( #  Esri.WorldImagery 스타일 적용
+    tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attr='Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+    name='Esri.WorldImagery',
+    overlay=False,
+    control=True
+).add_to(m)
 
 # 3) edges.geojson에 없는 컬럼 제거
 available_fields = list(edges_gdf.columns)
